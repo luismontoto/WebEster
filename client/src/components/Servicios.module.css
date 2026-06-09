@@ -1,0 +1,58 @@
+.servicios {
+  background: var(--color-white);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.card {
+  background: var(--color-bg);
+  padding: 36px 24px;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: var(--color-text-light);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
