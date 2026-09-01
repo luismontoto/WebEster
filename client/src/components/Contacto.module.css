@@ -135,4 +135,10 @@
   .igGrid {
     grid-template-columns: 1fr;
   }
+
+  .igGrid iframe,
+  .igGrid blockquote {
+    height: 300px !important;
+    min-height: 300px !important;
+  }
 }
