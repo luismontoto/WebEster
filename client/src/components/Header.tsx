@@ -47,7 +47,7 @@ function Header() {
             </a>
           ))}
           <a
-            href="https://wa.me/5500000000000"
+            href="https://www.doctoralia.es/ester-benjumea/psicologo/sevilla?utm_campaign=195470&utm_medium=link&utm_source=widget&utm_term=instagram-profile-link"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.cta}

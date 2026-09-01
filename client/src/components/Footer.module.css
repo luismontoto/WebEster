@@ -41,6 +41,18 @@
   margin-bottom: 8px;
 }
 
+.contactLink {
+  display: inline-block;
+  color: var(--color-white);
+  opacity: 0.85;
+  transition: opacity var(--transition);
+  margin-bottom: 8px;
+}
+
+.contactLink:hover {
+  opacity: 1;
+}
+
 .copy {
   font-size: 0.75rem;
   opacity: 0.6;
