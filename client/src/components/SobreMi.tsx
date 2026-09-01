@@ -16,7 +16,7 @@ function SobreMi() {
           <p className={styles.text}>
             A menudo, somos nuestros jueces más severos. Conmigo encontrarás un
             espacio seguro donde poder ser tú misma sin miedo al juicio. No
-            tienes que poder con cada sola.
+            tienes que poder con todo tú sola.
           </p>
           <p className={styles.text}>
             Mi enfoque es humanista e integrador, adaptándome a las necesidades

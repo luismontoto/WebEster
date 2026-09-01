@@ -1,23 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./Contacto.module.css";
 
 const instagramPosts = [
-  "https://www.instagram.com/p/DE1-Nm7o3rI/",
-  "https://www.instagram.com/p/DCB3JtnIE1g/",
+  {
+    url: "https://www.instagram.com/p/DE1-Nm7o3rI/",
+    title: "Consejos para gestionar la ansiedad",
+    excerpt: "Técnicas sencillas que puedes aplicar en tu día a día para reducir la ansiedad.",
+  },
+  {
+    url: "https://www.instagram.com/p/DCB3JtnIE1g/",
+    title: "La importancia de pedir ayuda",
+    excerpt: "Ir al psicólogo no es de débiles, es de valientes. Dar el primer paso es lo más importante.",
+  },
 ];
 
 function Contacto() {
   const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://www.instagram.com/embed.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -25,14 +24,27 @@ function Contacto() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    setForm({ nombre: "", email: "", mensaje: "" });
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setForm({ nombre: "", email: "", mensaje: "" });
+        setTimeout(() => setStatus("idle"), 5000);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 5000);
+      }
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
+    }
   };
 
   return (
@@ -44,6 +56,15 @@ function Contacto() {
             <p className={styles.contactIntro}>
               ¿Necesitas ayuda? Ponte en contacto conmigo para reservar tu cita de psicología en Sevilla. Ofrezco terapia presencial y online.
             </p>
+            <a
+              href="https://www.doctoralia.es/ester-benjumea/psicologo/sevilla?utm_campaign=195470&utm_medium=link&utm_source=widget&utm_term=instagram-profile-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.primaryCta}
+            >
+              Reservar cita en Doctoralia
+            </a>
+            <p className={styles.dividerText}>o escríbeme directamente</p>
             <form className={styles.form} onSubmit={handleSubmit}>
               <input
                 type="text"
@@ -69,9 +90,15 @@ function Contacto() {
                 onChange={handleChange}
                 required
               />
-              <button type="submit" className={styles.submitBtn}>
-                Enviar mensaje
+              <button type="submit" className={styles.submitBtn} disabled={status === "sending"}>
+                {status === "sending" ? "Enviando..." : "Enviar mensaje"}
               </button>
+              {status === "success" && (
+                <p className={styles.feedbackSuccess}>Mensaje enviado. Te responderé pronto.</p>
+              )}
+              {status === "error" && (
+                <p className={styles.feedbackError}>Ha ocurrido un error. Inténtalo de nuevo o escríbeme por WhatsApp.</p>
+              )}
             </form>
             <a
               href="https://wa.me/34663628917"
@@ -91,49 +118,25 @@ function Contacto() {
               Últimos consejos de @yosoypsico_
             </h3>
             <div className={styles.igGrid}>
-              {instagramPosts.map((url) => (
-                <blockquote
-                  key={url}
-                  className="instagram-media"
-                  data-instgrm-permalink={url}
-                  data-instgrm-version="14"
-                  style={{
-                    background: "#FFF",
-                    border: 0,
-                    borderRadius: "3px",
-                    boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
-                    margin: "0",
-                    padding: 0,
-                    width: "100%",
-                  }}
+              {instagramPosts.map((post) => (
+                <a
+                  key={post.url}
+                  href={post.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.igCard}
                 >
-                  <div style={{ padding: "16px" }}>
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        background: "#FFFFFF",
-                        lineHeight: 0,
-                        padding: "0 0",
-                        textAlign: "center",
-                        textDecoration: "none",
-                        width: "100%",
-                      }}
-                    >
-                      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <div style={{ backgroundColor: "#F4F4F4", borderRadius: "50%", height: "40px", width: "40px" }}></div>
-                        <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, marginLeft: "8px" }}>
-                          <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", height: "10px", marginBottom: "6px", width: "100px" }}></div>
-                          <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", height: "10px", width: "60px" }}></div>
-                        </div>
-                      </div>
-                      <div style={{ padding: "16px 0" }}>
-                        <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", height: "200px", width: "100%" }}></div>
-                      </div>
-                    </a>
+                  <div className={styles.igCardIcon}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5"/>
+                      <circle cx="12" cy="12" r="5"/>
+                      <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+                    </svg>
                   </div>
-                </blockquote>
+                  <h4 className={styles.igCardTitle}>{post.title}</h4>
+                  <p className={styles.igCardExcerpt}>{post.excerpt}</p>
+                  <span className={styles.igCardLink}>Ver en Instagram →</span>
+                </a>
               ))}
             </div>
             <a

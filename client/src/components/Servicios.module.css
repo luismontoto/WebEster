@@ -27,8 +27,10 @@
 }
 
 .icon {
-  font-size: 2rem;
+  color: var(--color-primary);
   margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
 }
 
 .card h3 {
