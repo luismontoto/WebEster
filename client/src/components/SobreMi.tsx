@@ -5,7 +5,7 @@ function SobreMi() {
     <section id="sobre-mi" className={`section ${styles.sobre}`}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.image}>
-          <img src="/FotoSegunda.png" alt="Ester Benjumea - Psicóloga General Sanitaria en Sevilla" width={600} height={800} />
+          <img src="/SegundaFoto.jpg" alt="Ester Benjumea - Psicóloga General Sanitaria en Sevilla" width={600} height={800} />
         </div>
         <div className={styles.content}>
           <h2 className={styles.title}>Sobre mí - Psicóloga en Sevilla</h2>
